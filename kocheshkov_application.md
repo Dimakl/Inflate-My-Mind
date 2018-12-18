@@ -1,5 +1,6 @@
 # Кочешков Дмитрий - "Inflate My Mind"
 
+
 ### Группа: 10 - МИ - 5
 ### Электронная почта: dimakid123@gmail.com
 ### VK: [Дима Кочешков](https://vk.com/chto_voobshe_proishodit)
