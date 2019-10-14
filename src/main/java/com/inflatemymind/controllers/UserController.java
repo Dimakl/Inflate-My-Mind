@@ -1,9 +1,37 @@
 package com.inflatemymind.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.inflatemymind.exceptions.ResourceNotFoundException;
+import com.inflatemymind.models.User;
+import com.inflatemymind.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.xml.ws.Response;
+import java.lang.reflect.Field;
+import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
+
+    @Autowired
+    UserRepository userRepository;
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) throws IllegalAccessException {
+        if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null
+            || user.getFirstName() == null || user.getSecondName() == null)
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+    }
+
 }
