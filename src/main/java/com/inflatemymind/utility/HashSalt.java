@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class HashSalt {
 
-    private static String SALT;
+    private static String salt;
 
     static {
         Scanner scanner = null;
@@ -16,10 +16,10 @@ public class HashSalt {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        SALT = scanner.nextLine();
+        salt = scanner.nextLine();
     }
 
-    public static String getSALT() {
-        return SALT;
+    public static String getSalt() {
+        return salt;
     }
 }
