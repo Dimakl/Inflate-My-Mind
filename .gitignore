@@ -29,3 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### NOT INCLUDING SALT ###
+src/main/resources/salt
