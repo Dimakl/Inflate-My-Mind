@@ -1,9 +1,11 @@
 package com.inflatemymind.models;
 
+import com.inflatemymind.utility.HashSalt;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,10 +17,11 @@ public class User implements Serializable {
     @Getter @Setter @NonNull private Long id;
 
     @Getter @Setter @NonNull private String login;
-    @Getter @Setter @NonNull private String password;
+    @Getter @NonNull private String password;
     @Getter @Setter @NonNull private Boolean isTeacher;
     @Getter @Setter @NonNull private String firstName;
     @Getter @Setter @NonNull private String secondName;
+
 
     public User() {
 
@@ -26,9 +29,14 @@ public class User implements Serializable {
 
     public User(String login, String password, Boolean isTeacher, String firstName, String secondName) {
         this.login = login;
-        this.password = password;
+        this.password = BCrypt.hashpw(password, HashSalt.getSalt());
         this.isTeacher = isTeacher;
         this.firstName = firstName;
         this.secondName = secondName;
+    }
+
+    public void setPassword(String password) {
+        this.password = BCrypt.hashpw(password, HashSalt.getSalt());
+
     }
 }
