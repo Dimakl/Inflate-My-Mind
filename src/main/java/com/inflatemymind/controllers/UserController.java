@@ -3,6 +3,7 @@ package com.inflatemymind.controllers;
 import com.inflatemymind.exceptions.ResourceNotFoundException;
 import com.inflatemymind.models.User;
 import com.inflatemymind.repositories.UserRepository;
+import com.inflatemymind.services.UserService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,16 +22,16 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping
     public ResponseEntity getUserById(@NonNull Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> user = userService.getUserById(userId);
 
         if (user.isPresent()) {
             return ResponseEntity
@@ -53,6 +54,6 @@ public class UserController {
         }
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userRepository.save(user));
+                .body(userService.createUser(user));
     }
 }
