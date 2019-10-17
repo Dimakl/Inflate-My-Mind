@@ -27,11 +27,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) throws IllegalAccessException {
+    public ResponseEntity createUser(@RequestBody User user) throws IllegalAccessException {
         if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null
-            || user.getFirstName() == null || user.getSecondName() == null)
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+                || user.getFirstName() == null || user.getSecondName() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Request contains null values");
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userRepository.save(user));
     }
-
 }
