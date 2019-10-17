@@ -29,4 +29,8 @@ public class SubmissionService {
                 .filter(submission -> submission.getExpressionId().equals(expressionId))
                 .collect(Collectors.toList());
     }
+
+    public Submission createSubmission(Submission submission) {
+        return submissionRepository.save(submission);
+    }
 }
