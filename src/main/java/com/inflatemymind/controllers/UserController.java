@@ -29,8 +29,8 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping
-    public ResponseEntity getUserById(@NonNull Long userId) {
+    @GetMapping(params = {"userId"})
+    public ResponseEntity getUserById(@RequestParam Long userId) {
         Optional<User> user = userService.getUserById(userId);
 
         if (user.isPresent()) {
