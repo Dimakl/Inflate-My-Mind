@@ -44,8 +44,10 @@ public class UserController {
         }
     }
 
+
+    @CrossOrigin(origins = "http://127.0.0.1:8000")
     @PostMapping
-    public ResponseEntity createUser(@RequestBody User user) throws IllegalAccessException {
+    public ResponseEntity createUser( User user) throws IllegalAccessException {
         if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null
                 || user.getFirstName() == null || user.getSecondName() == null) {
             return ResponseEntity
@@ -55,5 +57,14 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.createUser(user));
+    }
+
+    @CrossOrigin(origins = "http://127.0.0.1:8000")
+    @GetMapping(params={"login","password"})
+    public ResponseEntity getUserByLoginAndPassword(String login, String password) {
+        // TODO: fix when user is not found
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUserByLoginAndPassword(login, password));
     }
 }
