@@ -41,8 +41,8 @@ public class MailgunVerification {
         JsonNode j = Unirest.post("https://api.mailgun.net/v3/" + DOMAIN + "/messages").basicAuth("api", privateApiKey)
                 .queryString("from", "InflateMyMind <hivemind@inflate-my-mind.com>")
                 .queryString("to", user.getEmail())
-                .queryString("subject", "Hey, verify your account")
-                .queryString("text", "verification link: " + LINK_TO_WEBSITE + "/login")
+                .queryString("subject", "Verify your account, please")
+                .queryString("text", user.getFirstName() + " " + user.getSecondName() + ", your verification link is: " + LINK_TO_WEBSITE + "/login")
                 .asJson().getBody();
     }
 
