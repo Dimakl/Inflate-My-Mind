@@ -29,14 +29,13 @@ public class User implements Serializable {
 
     public User(String login, String password, Boolean isTeacher, String firstName, String secondName) {
         this.login = login;
-        this.password = BCrypt.hashpw(password, HashSalt.getSalt());
+        this.password = HashSalt.hashPassword(password);
         this.isTeacher = isTeacher;
         this.firstName = firstName;
         this.secondName = secondName;
     }
 
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, HashSalt.getSalt());
-
+        this.password = HashSalt.hashPassword(password);
     }
 }

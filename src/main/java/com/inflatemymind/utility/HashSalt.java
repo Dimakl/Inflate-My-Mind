@@ -1,5 +1,7 @@
 package com.inflatemymind.utility;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -21,5 +23,9 @@ public class HashSalt {
 
     public static String getSalt() {
         return salt;
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, HashSalt.getSalt());
     }
 }
