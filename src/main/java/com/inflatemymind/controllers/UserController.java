@@ -29,6 +29,15 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @CrossOrigin(origins = "http://127.0.0.1:8000")
+    @GetMapping(params={"login","password"})
+    public ResponseEntity getUserByLoginAndPassword(String login, String password) {
+        // TODO: fix when user is not found
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUserByLoginAndPassword(login, password));
+    }
+
     @GetMapping(params = {"userId"})
     public ResponseEntity getUserById(@RequestParam Long userId) {
         Optional<User> user = userService.getUserById(userId);
@@ -59,12 +68,5 @@ public class UserController {
                 .body(userService.createUser(user));
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:8000")
-    @GetMapping(params={"login","password"})
-    public ResponseEntity getUserByLoginAndPassword(String login, String password) {
-        // TODO: fix when user is not found
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.getUserByLoginAndPassword(login, password));
-    }
+
 }
