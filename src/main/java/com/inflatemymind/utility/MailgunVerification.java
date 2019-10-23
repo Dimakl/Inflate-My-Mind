@@ -42,7 +42,7 @@ public class MailgunVerification {
                 .queryString("from", "InflateMyMind <hivemind@inflate-my-mind.com>")
                 .queryString("to", user.getEmail())
                 .queryString("subject", "Verify your account, please")
-                .queryString("text", user.getFirstName() + " " + user.getSecondName() + ", your verification link is: " + LINK_TO_WEBSITE + "/login")
+                .queryString("text", user.getFirstName() + " " + user.getSecondName() + ", your verification link is: http://127.0.0.1:8000/verify.html?" + user.getEmail())
                 .asJson().getBody();
     }
 
