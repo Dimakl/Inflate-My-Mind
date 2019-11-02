@@ -45,6 +45,13 @@ public class SubmissionController {
         }
     }
 
+    @GetMapping(params = {"userId"})
+    public ResponseEntity getSubmissionsByUserId(Long userId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(submissionService.getSubmissionsByUserId(userId));
+    }
+
     @GetMapping(params = {"expressionId"})
     public ResponseEntity getSubmissionsByExpressionId(Long expressionId) {
         return ResponseEntity
