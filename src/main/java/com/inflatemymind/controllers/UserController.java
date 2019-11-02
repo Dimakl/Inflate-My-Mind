@@ -29,7 +29,6 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @CrossOrigin(origins = "http://127.0.0.1:8000")
     @GetMapping(params={"login","password"})
     public ResponseEntity getUserByLoginAndPassword(String login, String password) {
         // TODO: fix when user is not found
