@@ -46,8 +46,10 @@ public class SubmissionController {
     }
 
     @GetMapping(params = {"expressionId"})
-    public List<Submission> getSubmissionsByExpressionId(Long expressionId) {
-        return submissionService.getSubmissionsByExpressionId(expressionId);
+    public ResponseEntity getSubmissionsByExpressionId(Long expressionId) {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(submissionService.getSubmissionsByExpressionId(expressionId));
     }
 
     @PostMapping
