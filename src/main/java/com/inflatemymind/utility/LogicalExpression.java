@@ -2,26 +2,44 @@ package com.inflatemymind.utility;
 
 import com.inflatemymind.antlr.generated.LogicalExpressionLexer;
 import com.inflatemymind.antlr.generated.LogicalExpressionParser;
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.TokenSource;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.TokenStream;
+import org.antlr.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LogicalExpression {
 
     public static void main(String[] args) {
-        expressionIsValid("A&B");
+        System.out.println(expressionIsValid("A&B"));
     }
 
     public static Boolean expressionIsValid(String expression) {
-        CharStream in = CharStreams.fromString(expression);
-        LogicalExpressionLexer lexer = new LogicalExpressionLexer(in);
-        // TODO: not working righnt now
-        CommonTokenStream tokens = new CommonTokenStream((TokenSource) lexer);
-        LogicalExpressionParser parser = new LogicalExpressionParser((TokenStream) tokens);
+        return checkSyntaxErrors(expression) && checkInvalidTokens(expression);
+    }
+
+    private static boolean checkSyntaxErrors(String expression) {
+        LogicalExpressionLexer lexer = new LogicalExpressionLexer(CharStreams.fromString(expression));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        LogicalExpressionParser parser = new LogicalExpressionParser(tokens);
         parser.eval();
+        return parser.getNumberOfSyntaxErrors() == 0;
+    }
+
+    private static boolean checkInvalidTokens(String expression) {
+        // TODO: on change of grammar should change it too
+        String allowedTokens = "()!&|ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Set<Character> tokenSet = new HashSet<>();
+        for (Character c : allowedTokens.toCharArray()) {
+            tokenSet.add(c);
+        }
+        for (Character c : expression.toCharArray()) {
+            if (!tokenSet.contains(c)) {
+                return false;
+            }
+        }
         return true;
     }
 
