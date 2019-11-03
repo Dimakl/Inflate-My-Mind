@@ -1,6 +1,7 @@
 package com.inflatemymind.controllers;
 
 import com.inflatemymind.models.Submission;
+import com.inflatemymind.models.User;
 import com.inflatemymind.services.ExpressionService;
 import com.inflatemymind.services.SubmissionService;
 import com.inflatemymind.services.UserService;
@@ -10,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/submissions")
@@ -54,9 +57,33 @@ public class SubmissionController {
 
     @GetMapping(params = {"expressionId"})
     public ResponseEntity getSubmissionsByExpressionId(Long expressionId) {
+        List<Submission> submissions = submissionService.getSubmissionsByExpressionId(expressionId);
+        List<User> users = submissions.stream()
+                .map(submission -> userService.getUserById(submission.getUserId()).get())
+                .collect(Collectors.toList());
+        List<Map<String, String>> submissionsMap =
+                submissions.stream().map(submission -> new HashMap<String, String>() {{
+                    put("res",
+                            submission.getIsCorrect() ? "Верно" : "Неверно");
+                    put("date",
+                            submission.getSubmissionTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                }}).collect(Collectors.toList());
+        List<Map<String, String>> usersMap =
+                users.stream().map(user ->
+                        new HashMap<String, String>() {{
+                            put("name", user.getFirstName());
+                            put("surname", user.getSecondName());
+                        }}
+                ).collect(Collectors.toList());
+        List<Map<String, String>> response = new ArrayList<Map<String, String>>(submissions.size()) {{
+            for (int i = 0; i < submissions.size(); i++) {
+                submissionsMap.get(i).putAll(usersMap.get(i));
+                add(i, submissionsMap.get(i));
+            }
+        }};
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(submissionService.getSubmissionsByExpressionId(expressionId));
+                .status(HttpStatus.OK)
+                .body(response);
     }
 
     @PostMapping
@@ -80,5 +107,4 @@ public class SubmissionController {
                     .body(submissionService.createSubmission(submission));
         }
     }
-
 }
