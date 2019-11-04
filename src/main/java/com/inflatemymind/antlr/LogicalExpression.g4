@@ -6,7 +6,7 @@ eval
 expression
     : expression AND expression
     | expression OR expression
-    | LPAREN expression RPAREN
+    | (NOT)* LPAREN expression RPAREN
     | (NOT)* VARIABLE
     ;
 

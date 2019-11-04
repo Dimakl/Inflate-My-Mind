@@ -3,11 +3,8 @@ package com.inflatemymind.antlr.generated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class LogicalExpressionParser extends Parser {
@@ -140,11 +137,11 @@ public class LogicalExpressionParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode RPAREN() { return getToken(LogicalExpressionParser.RPAREN, 0); }
-		public TerminalNode VARIABLE() { return getToken(LogicalExpressionParser.VARIABLE, 0); }
 		public List<TerminalNode> NOT() { return getTokens(LogicalExpressionParser.NOT); }
 		public TerminalNode NOT(int i) {
 			return getToken(LogicalExpressionParser.NOT, i);
 		}
+		public TerminalNode VARIABLE() { return getToken(LogicalExpressionParser.VARIABLE, 0); }
 		public TerminalNode AND() { return getToken(LogicalExpressionParser.AND, 0); }
 		public TerminalNode OR() { return getToken(LogicalExpressionParser.OR, 0); }
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
@@ -177,64 +174,75 @@ public class LogicalExpressionParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(19);
+			setState(25);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case LPAREN:
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
 				{
-				setState(8);
-				match(LPAREN);
-				setState(9);
-				expression(0);
-				setState(10);
-				match(RPAREN);
-				}
-				break;
-			case NOT:
-			case VARIABLE:
-				{
-				setState(15);
+				setState(11);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==NOT) {
 					{
 					{
-					setState(12);
+					setState(8);
 					match(NOT);
 					}
 					}
-					setState(17);
+					setState(13);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(18);
+				setState(14);
+				match(LPAREN);
+				setState(15);
+				expression(0);
+				setState(16);
+				match(RPAREN);
+				}
+				break;
+			case 2:
+				{
+				setState(21);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==NOT) {
+					{
+					{
+					setState(18);
+					match(NOT);
+					}
+					}
+					setState(23);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(24);
 				match(VARIABLE);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(29);
+			setState(35);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(27);
+					setState(33);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(21);
+						setState(27);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(22);
+						setState(28);
 						match(AND);
-						setState(23);
+						setState(29);
 						expression(5);
 						}
 						break;
@@ -242,20 +250,20 @@ public class LogicalExpressionParser extends Parser {
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(24);
+						setState(30);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(25);
+						setState(31);
 						match(OR);
-						setState(26);
+						setState(32);
 						expression(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(31);
+				setState(37);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
 			}
 		}
@@ -288,16 +296,18 @@ public class LogicalExpressionParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\b#\4\2\t\2\4\3\t"+
-		"\3\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\7\3\20\n\3\f\3\16\3\23\13\3\3\3"+
-		"\5\3\26\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3\36\n\3\f\3\16\3!\13\3\3\3\2\3"+
-		"\4\4\2\4\2\2\2$\2\6\3\2\2\2\4\25\3\2\2\2\6\7\5\4\3\2\7\b\7\2\2\3\b\3\3"+
-		"\2\2\2\t\n\b\3\1\2\n\13\7\3\2\2\13\f\5\4\3\2\f\r\7\4\2\2\r\26\3\2\2\2"+
-		"\16\20\7\5\2\2\17\16\3\2\2\2\20\23\3\2\2\2\21\17\3\2\2\2\21\22\3\2\2\2"+
-		"\22\24\3\2\2\2\23\21\3\2\2\2\24\26\7\b\2\2\25\t\3\2\2\2\25\21\3\2\2\2"+
-		"\26\37\3\2\2\2\27\30\f\6\2\2\30\31\7\6\2\2\31\36\5\4\3\7\32\33\f\5\2\2"+
-		"\33\34\7\7\2\2\34\36\5\4\3\6\35\27\3\2\2\2\35\32\3\2\2\2\36!\3\2\2\2\37"+
-		"\35\3\2\2\2\37 \3\2\2\2 \5\3\2\2\2!\37\3\2\2\2\6\21\25\35\37";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\b)\4\2\t\2\4\3\t"+
+		"\3\3\2\3\2\3\2\3\3\3\3\7\3\f\n\3\f\3\16\3\17\13\3\3\3\3\3\3\3\3\3\3\3"+
+		"\7\3\26\n\3\f\3\16\3\31\13\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7"+
+		"\3$\n\3\f\3\16\3\'\13\3\3\3\2\3\4\4\2\4\2\2\2+\2\6\3\2\2\2\4\33\3\2\2"+
+		"\2\6\7\5\4\3\2\7\b\7\2\2\3\b\3\3\2\2\2\t\r\b\3\1\2\n\f\7\5\2\2\13\n\3"+
+		"\2\2\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\20\3\2\2\2\17\r\3\2\2"+
+		"\2\20\21\7\3\2\2\21\22\5\4\3\2\22\23\7\4\2\2\23\34\3\2\2\2\24\26\7\5\2"+
+		"\2\25\24\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\32\3\2\2"+
+		"\2\31\27\3\2\2\2\32\34\7\b\2\2\33\t\3\2\2\2\33\27\3\2\2\2\34%\3\2\2\2"+
+		"\35\36\f\6\2\2\36\37\7\6\2\2\37$\5\4\3\7 !\f\5\2\2!\"\7\7\2\2\"$\5\4\3"+
+		"\6#\35\3\2\2\2# \3\2\2\2$\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\5\3\2\2\2\'%"+
+		"\3\2\2\2\7\r\27\33#%";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

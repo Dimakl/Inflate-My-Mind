@@ -18,12 +18,12 @@ public interface LogicalExpressionListener extends ParseTreeListener {
 	 */
 	void exitEval(LogicalExpressionParser.EvalContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LogicalExpressionParser#expression}.
+	 * Enter a parse tree produced by {@link LogicalExpressionParser#expression()}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpression(LogicalExpressionParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LogicalExpressionParser#expression}.
+	 * Exit a parse tree produced by {@link LogicalExpressionParser#expression()}.
 	 * @param ctx the parse tree
 	 */
 	void exitExpression(LogicalExpressionParser.ExpressionContext ctx);
