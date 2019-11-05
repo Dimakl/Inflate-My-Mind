@@ -14,7 +14,7 @@ public class LogicalExpressionParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LPAREN=1, RPAREN=2, NOT=3, AND=4, OR=5, VARIABLE=6;
+		LPAREN=1, RPAREN=2, NOT=3, AND=4, OR=5, XOR=6, VARIABLE=7;
 	public static final int
 		RULE_eval = 0, RULE_expression = 1;
 	private static String[] makeRuleNames() {
@@ -26,13 +26,13 @@ public class LogicalExpressionParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", "'!'", "'&'", "'|'"
+			null, "'('", "')'", "'!'", "'&'", "'|'", "'^'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "LPAREN", "RPAREN", "NOT", "AND", "OR", "VARIABLE"
+			null, "LPAREN", "RPAREN", "NOT", "AND", "OR", "XOR", "VARIABLE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -211,6 +211,24 @@ public class LogicalExpressionParser extends Parser {
 			if ( listener instanceof LogicalExpressionListener ) ((LogicalExpressionListener)listener).exitAND(this);
 		}
 	}
+	public static class XORContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode XOR() { return getToken(LogicalExpressionParser.XOR, 0); }
+		public XORContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalExpressionListener ) ((LogicalExpressionListener)listener).enterXOR(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LogicalExpressionListener ) ((LogicalExpressionListener)listener).exitXOR(this);
+		}
+	}
 
 	public final ExpressionContext expression() throws RecognitionException {
 		return expression(0);
@@ -284,7 +302,7 @@ public class LogicalExpressionParser extends Parser {
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(35);
+			setState(38);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -292,37 +310,49 @@ public class LogicalExpressionParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(33);
+					setState(36);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ANDContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new XORContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(27);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(28);
-						match(AND);
+						match(XOR);
 						setState(29);
-						expression(5);
+						expression(6);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ORContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new ANDContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(30);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(31);
-						match(OR);
+						match(AND);
 						setState(32);
+						expression(5);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new ORContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(33);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(34);
+						match(OR);
+						setState(35);
 						expression(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(37);
+				setState(40);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -349,26 +379,29 @@ public class LogicalExpressionParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 5);
 		case 1:
+			return precpred(_ctx, 4);
+		case 2:
 			return precpred(_ctx, 3);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\b)\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t,\4\2\t\2\4\3\t"+
 		"\3\3\2\3\2\3\2\3\3\3\3\7\3\f\n\3\f\3\16\3\17\13\3\3\3\3\3\3\3\3\3\3\3"+
-		"\7\3\26\n\3\f\3\16\3\31\13\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7"+
-		"\3$\n\3\f\3\16\3\'\13\3\3\3\2\3\4\4\2\4\2\2\2+\2\6\3\2\2\2\4\33\3\2\2"+
-		"\2\6\7\5\4\3\2\7\b\7\2\2\3\b\3\3\2\2\2\t\r\b\3\1\2\n\f\7\5\2\2\13\n\3"+
-		"\2\2\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\20\3\2\2\2\17\r\3\2\2"+
-		"\2\20\21\7\3\2\2\21\22\5\4\3\2\22\23\7\4\2\2\23\34\3\2\2\2\24\26\7\5\2"+
-		"\2\25\24\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\32\3\2\2"+
-		"\2\31\27\3\2\2\2\32\34\7\b\2\2\33\t\3\2\2\2\33\27\3\2\2\2\34%\3\2\2\2"+
-		"\35\36\f\6\2\2\36\37\7\6\2\2\37$\5\4\3\7 !\f\5\2\2!\"\7\7\2\2\"$\5\4\3"+
-		"\6#\35\3\2\2\2# \3\2\2\2$\'\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\5\3\2\2\2\'%"+
-		"\3\2\2\2\7\r\27\33#%";
+		"\7\3\26\n\3\f\3\16\3\31\13\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\7\3\'\n\3\f\3\16\3*\13\3\3\3\2\3\4\4\2\4\2\2\2/\2\6\3\2\2\2"+
+		"\4\33\3\2\2\2\6\7\5\4\3\2\7\b\7\2\2\3\b\3\3\2\2\2\t\r\b\3\1\2\n\f\7\5"+
+		"\2\2\13\n\3\2\2\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\20\3\2\2\2"+
+		"\17\r\3\2\2\2\20\21\7\3\2\2\21\22\5\4\3\2\22\23\7\4\2\2\23\34\3\2\2\2"+
+		"\24\26\7\5\2\2\25\24\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2"+
+		"\30\32\3\2\2\2\31\27\3\2\2\2\32\34\7\t\2\2\33\t\3\2\2\2\33\27\3\2\2\2"+
+		"\34(\3\2\2\2\35\36\f\7\2\2\36\37\7\b\2\2\37\'\5\4\3\b !\f\6\2\2!\"\7\6"+
+		"\2\2\"\'\5\4\3\7#$\f\5\2\2$%\7\7\2\2%\'\5\4\3\6&\35\3\2\2\2& \3\2\2\2"+
+		"&#\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2\2)\5\3\2\2\2*(\3\2\2\2\7\r\27"+
+		"\33&(";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

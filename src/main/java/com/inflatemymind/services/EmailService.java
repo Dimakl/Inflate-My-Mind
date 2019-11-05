@@ -22,7 +22,8 @@ public class EmailService {
                 return false;
             }
         }
-        Email newEmail = emailRepository.save(new Email(false, email));
+        //TODO:chnage
+        Email newEmail = emailRepository.save(new Email(true, email));
         MailgunVerification.verifyEmail(user, newEmail);
         return true;
     }

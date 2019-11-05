@@ -29,6 +29,7 @@ public class SubmissionController {
     @Autowired
     UserService userService;
 
+    @CrossOrigin
     @GetMapping(params = {"submissionId"})
     public ResponseEntity getSubmissionById(Long submissionId) {
         Optional<Submission> submission = submissionService.getSubmissionById(submissionId);
@@ -43,6 +44,7 @@ public class SubmissionController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(params = {"userId"})
     public ResponseEntity getSubmissionsByUserId(Long userId) {
         return ResponseEntity
@@ -50,6 +52,7 @@ public class SubmissionController {
                 .body(submissionService.getSubmissionsByUserId(userId));
     }
 
+    @CrossOrigin
     @GetMapping(params = {"expressionId"})
     public ResponseEntity getSubmissionsByExpressionId(Long expressionId) {
         List<Submission> submissions = submissionService.getSubmissionsByExpressionId(expressionId);
@@ -81,6 +84,7 @@ public class SubmissionController {
                 .body(response);
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity createSubmission(@RequestBody Submission submission) {
         if (submission.getExpressionId() == null || submission.getIsCorrect() == null

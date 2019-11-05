@@ -8,10 +8,10 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.Tree;
+import org.w3c.dom.Node;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
-import javax.xml.soap.Node;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -30,7 +30,7 @@ public class ImageFromLogicalExpression {
 
     private List<List<TreeNode>> treeNodes = new ArrayList<>();
 
-    private Image and, or, not;
+    private Image and, or, not, smallNot, buffer, xor;
 
     public ImageFromLogicalExpression(Expression expr) {
         expression = expr.getExpression();
@@ -67,9 +67,16 @@ public class ImageFromLogicalExpression {
                     nextQueue.add(new AbstractMap.SimpleEntry<>(appendNode, node.getChild(2))); // not ( EXPR )
                     break;
                 case 3:
-                    if (node.getChild(1).getText().equals("&")
-                            || node.getChild(1).getText().equals("|")) { // expr [&|] expr
-                        NodeType nodeType = node.getChild(1).getText().equals("&") ? NodeType.AND : NodeType.OR;
+                    if (node.getChild(1).getText().equals("&") || node.getChild(1).getText().equals("^")
+                            || node.getChild(1).getText().equals("|") ) { // expr [&|] expr
+                        NodeType nodeType;
+                        if (node.getChild(1).getText().equals("&")) {
+                            nodeType = NodeType.AND;
+                        } else if (node.getChild(1).getText().equals("|")) {
+                            nodeType = NodeType.OR;
+                        } else {
+                            nodeType = NodeType.XOR;
+                        }
                         appendNode = new TreeNode(node, false, nodeType, fromNode);
                         treeNodes.get(currentLevel).add(appendNode);
                         nextQueue.add(new AbstractMap.SimpleEntry<>(appendNode, node.getChild(0))); // EXPR [&\] expr
@@ -124,15 +131,21 @@ public class ImageFromLogicalExpression {
                 TreeNode node = treeNodes.get(i).get(j);
                 node.boxStartX = currentX;
                 node.boxStartY = currentY;
+                boolean isVarWithNot = false;
                 switch (node.type) {
                     case VARIABLE:
-                        g.drawString(node.nodeText, currentX + 40, currentY + 35);
+                        String let = node.nodeText;
+                        if (let.length() > 1) {
+                            let = let.substring(1);
+                            isVarWithNot = true;
+                        }
+                        g.drawString(let, currentX + 40, currentY + 35);
                         break;
                     case PARENS:
                         if (node.isNegated) {
                             g.drawImage(not, currentX, currentY, null);
                         } else {
-                            g.drawLine(currentX, currentY + 25, currentX + 75, currentY + 25);
+                            g.drawImage(buffer, currentX, currentY, null);
                         }
                         break;
                     case AND:
@@ -141,8 +154,15 @@ public class ImageFromLogicalExpression {
                     case OR:
                         g.drawImage(or, currentX, currentY, null);
                         break;
+                    case XOR:
+                        g.drawImage(xor, currentX, currentY, null);
+                        break;
                 }
-                g.drawLine(currentX + 75, currentY + 25, currentX + 100 + j * 4, currentY + 25 );
+                if (isVarWithNot) {
+                    g.drawImage(smallNot, currentX + 67, currentY + 14, null);
+                } else {
+                    g.drawLine(currentX + 75, currentY + 25, currentX + 100 + j * 4, currentY + 25);
+                }
                 currentY += 75;
             }
             currentY = 0;
@@ -194,6 +214,9 @@ public class ImageFromLogicalExpression {
         and = ImageIO.read(getClass().getResource("/operator_images/and.png"));
         or = ImageIO.read(getClass().getResource("/operator_images/or.png"));
         not = ImageIO.read(getClass().getResource("/operator_images/not.png"));
+        smallNot = ImageIO.read(getClass().getResource("/operator_images/small_not.png"));
+        buffer = ImageIO.read(getClass().getResource("/operator_images/buffer.png"));
+        xor = ImageIO.read(getClass().getResource("/operator_images/xor.png"));
     }
 
 
@@ -201,7 +224,8 @@ public class ImageFromLogicalExpression {
         VARIABLE,
         OR,
         AND,
-        PARENS
+        PARENS,
+        XOR
     }
 
     class TreeNode {

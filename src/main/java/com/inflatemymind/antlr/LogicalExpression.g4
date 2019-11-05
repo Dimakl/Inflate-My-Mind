@@ -4,7 +4,8 @@ eval
     : expression EOF;
 
 expression
-    : expression AND expression       #AND
+    : expression XOR expression       #XOR
+    | expression AND expression       #AND
     | expression OR expression        #OR
     | (NOT)* LPAREN expression RPAREN #PARENS
     | (NOT)* VARIABLE                 #VARIABLE
@@ -28,6 +29,10 @@ AND
 
 OR
     : '|'
+    ;
+
+XOR
+    : '^'
     ;
 
 VARIABLE

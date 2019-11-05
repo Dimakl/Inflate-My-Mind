@@ -21,7 +21,9 @@ public class Email implements Serializable {
     @Getter @Setter @NonNull private Boolean isValidated;
 
     public Email() {
-        isValidated = false;
+        //TODO:change
+        //isValidated = false;
+        isValidated = true;
     }
 
     public Email(@NonNull Boolean isValidated, @NonNull String email) {

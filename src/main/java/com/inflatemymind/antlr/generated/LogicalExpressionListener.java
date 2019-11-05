@@ -65,4 +65,16 @@ public interface LogicalExpressionListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAND(LogicalExpressionParser.ANDContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code XOR}
+	 * labeled alternative in {@link LogicalExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterXOR(LogicalExpressionParser.XORContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code XOR}
+	 * labeled alternative in {@link LogicalExpressionParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitXOR(LogicalExpressionParser.XORContext ctx);
 }

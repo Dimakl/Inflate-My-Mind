@@ -29,6 +29,7 @@ public class UserController {
     @Autowired
     EmailService emailService;
 
+    @CrossOrigin
     @GetMapping(params={"login","password"})
     public ResponseEntity getUserByLoginAndPassword(String login, String password) {
         User user = userService.getUserByLoginAndPassword(login, password);
@@ -47,6 +48,7 @@ public class UserController {
                 .body(user);
     }
 
+    @CrossOrigin
     @GetMapping(params = {"userId"})
     public ResponseEntity getUserById(@RequestParam Long userId) {
         Optional<User> user = userService.getUserById(userId);
@@ -63,6 +65,7 @@ public class UserController {
     }
 
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity createUser( User user) throws IllegalAccessException {
         if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null

@@ -20,7 +20,7 @@
     <div class="card mb-4"></div>
     <!-- End: Default Card -->
     <div class="center" style="width: 452px;" allign="center">
-        <p class="header">Создание логической схемы</p><input type="text" id="logicalScheme" placeholder="Логическое выражение" style="width: 350px;margin: 20px;">
+        <p class="header">Создание логической схемы</p><input type="text" id="logicalScheme" placeholder="Логическое выражение" style="width: 350px;margin: 20px;"><small class="form-text text-muted">Возможные символы для создания логической схемы:<br>Переменные: 1 буква из A..Z<br>Логическое и: &amp;<br>Логическое или: |<br>Логическое отрицание: !&nbsp;<br>Буффер: (...)<br>Xor: ^<br><br><br></small>
         <p>Значение на выходе логического выражения:</p>
         <!-- Start: Toggle Switches -->
         <fieldset>
@@ -29,7 +29,7 @@
         <!-- End: Toggle Switches --><button class="btn btn-primary" id="submitSchemeCreation" type="button" width="100%">Создать выражение</button>
         <p class="header" style="margin: 30px">ID созданной схемы:</p>
         <p id="code" class="header" style="margin: 30px"></p>
-    </div><a href="#">Link</a>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>

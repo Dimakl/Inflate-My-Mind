@@ -11,10 +11,6 @@ import java.util.stream.Collectors;
 
 public class LogicalExpression {
 
-    public static void main(String[] args) {
-        System.out.println(expressionIsValid("A&B"));
-    }
-
     public static Boolean expressionIsValid(String expression) {
         return checkSyntaxErrors(expression) && checkInvalidTokens(expression);
     }
@@ -29,7 +25,7 @@ public class LogicalExpression {
 
     private static boolean checkInvalidTokens(String expression) {
         // on change of grammar should change it too
-        String allowedTokens = "()!&|ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String allowedTokens = "()!&|^ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Set<Character> tokenSet = new HashSet<>();
         for (Character c : allowedTokens.toCharArray()) {
             tokenSet.add(c);

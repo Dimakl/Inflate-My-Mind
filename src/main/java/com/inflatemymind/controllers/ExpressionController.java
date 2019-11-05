@@ -38,6 +38,7 @@ public class ExpressionController {
     @Autowired
     UserService userService;
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity getExpressionById(Long expressionId) {
         Optional<Expression> expression = expressionService.getExpressionById(expressionId);
@@ -52,6 +53,7 @@ public class ExpressionController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(value = "/image")
     public @ResponseBody ResponseEntity getFullExpressionInfoById(Long expressionId) {
         Optional<Expression> expression = expressionService.getExpressionById(expressionId);
@@ -86,9 +88,14 @@ public class ExpressionController {
         return null;
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity createExpression(@RequestBody Expression expression) {
-        if (expression.getExpression() == null || expression.getContributorId() == null ||
+        if (expression.getContributorId() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Пожалуйста, зайдите в аккаунт");
+        } else if (expression.getExpression() == null ||
                 expression.getAnswer() == null) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

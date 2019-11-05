@@ -71,6 +71,18 @@ public class LogicalExpressionBaseListener implements LogicalExpressionListener 
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAND(LogicalExpressionParser.ANDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterXOR(LogicalExpressionParser.XORContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitXOR(LogicalExpressionParser.XORContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
