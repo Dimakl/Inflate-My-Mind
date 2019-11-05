@@ -2,7 +2,6 @@ package com.inflatemymind.utility;
 
 import com.inflatemymind.antlr.generated.LogicalExpressionLexer;
 import com.inflatemymind.antlr.generated.LogicalExpressionParser;
-import org.antlr.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.*;
 
 import java.util.Arrays;
