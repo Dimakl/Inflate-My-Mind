@@ -3,6 +3,7 @@ package com.inflatemymind.utility;
 
 import com.inflatemymind.antlr.generated.LogicalExpressionLexer;
 import com.inflatemymind.antlr.generated.LogicalExpressionParser;
+import com.inflatemymind.models.Expression;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -25,18 +26,16 @@ public class ImageFromLogicalExpression {
 
     private Integer answer;
 
+    private String filename;
+
     private List<List<TreeNode>> treeNodes = new ArrayList<>();
 
     private Image and, or, not;
 
-    public static void main(String[] args) {
-        ImageFromLogicalExpression imageFromLogicalExpression = new ImageFromLogicalExpression("!A&((L&B)|(K&Q)|!(C|(A&B&E))&D)|D", 1);
-        System.out.println();
-    }
-
-    public ImageFromLogicalExpression(String expression, Integer answer) {
-        this.expression = expression;
-        this.answer = answer;
+    public ImageFromLogicalExpression(Expression expr) {
+        expression = expr.getExpression();
+        answer = expr.getAnswer() ? 1 : 0;
+        filename = expr.getId() + ".png";
         getTreeNodesFromExpression();
         try {
             loadImages();
@@ -50,7 +49,6 @@ public class ImageFromLogicalExpression {
         LogicalExpressionLexer lexer = new LogicalExpressionLexer(CharStreams.fromString(expression));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         com.inflatemymind.antlr.generated.LogicalExpressionParser parser = new LogicalExpressionParser(tokens);
-        // тут дфс
         Queue<AbstractMap.SimpleEntry<TreeNode, ParseTree>> queue = new LinkedList<>();
         Queue<AbstractMap.SimpleEntry<TreeNode, ParseTree>> nextQueue = new LinkedList<>();
         int currentLevel = 0;
@@ -113,7 +111,7 @@ public class ImageFromLogicalExpression {
         drawBasicElements(g);
         drawConnections(g);
         drawAnswer(g);
-        ImageIO.write(bufferedImage, "png", new File("coolfile.png"));
+        ImageIO.write(bufferedImage, "png", new File("src/main/resources/schemes/" + filename));
     }
 
 
@@ -144,7 +142,7 @@ public class ImageFromLogicalExpression {
                         g.drawImage(or, currentX, currentY, null);
                         break;
                 }
-                g.drawLine(currentX + 75, currentY + 25, currentX + 100, currentY + 25);
+                g.drawLine(currentX + 75, currentY + 25, currentX + 100 + j * 4, currentY + 25 );
                 currentY += 75;
             }
             currentY = 0;
@@ -158,16 +156,16 @@ public class ImageFromLogicalExpression {
                 TreeNode node = treeNodes.get(i).get(j);
                 TreeNode nextNode = node.next;
                 if (nextNode.type == NodeType.PARENS) {
-                    g.drawLine(node.boxStartX + 100, node.boxStartY + 25,
-                            node.boxStartX + 100, nextNode.boxStartY + 25); // vertical
-                    g.drawLine(node.boxStartX + 100, nextNode.boxStartY + 25,
+                    g.drawLine(node.boxStartX + 100+ j * 4, node.boxStartY + 25,
+                            node.boxStartX + 100 + j * 4 , nextNode.boxStartY + 25); // vertical
+                    g.drawLine(node.boxStartX + 100 + j * 4, nextNode.boxStartY + 25,
                             nextNode.boxStartX, nextNode.boxStartY + 25); // horizontal
                 } else {
                     int inputY = nextNode.occupied ? nextNode.boxStartY + 35 : nextNode.boxStartY + 15;
                     nextNode.occupied = true;
-                    g.drawLine(node.boxStartX + 100, node.boxStartY + 25,
-                            node.boxStartX + 100, inputY); // vertical
-                    g.drawLine(node.boxStartX + 100, inputY, nextNode.boxStartX, inputY); // horisontal
+                    g.drawLine(node.boxStartX + 100 + j * 4, node.boxStartY + 25,
+                            node.boxStartX + 100 + j * 4, inputY); // vertical
+                    g.drawLine(node.boxStartX + 100 + j * 4, inputY, nextNode.boxStartX, inputY); // horisontal
                 }
             }
         }
