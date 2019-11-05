@@ -1,6 +1,7 @@
 package com.inflatemymind.services;
 
 import com.inflatemymind.models.User;
+import com.inflatemymind.repositories.EmailRepository;
 import com.inflatemymind.repositories.UserRepository;
 import com.inflatemymind.utility.HashSalt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class UserService {
     }
 
     public User createUser(User user) {
+
         return userRepository.save(user);
     }
 
@@ -36,5 +38,15 @@ public class UserService {
                         user.getPassword() != null && user.getPassword().equals(HashSalt.hashPassword(password)))
                 .collect(Collectors.toList());
         return suitableUsers.isEmpty() ? null : suitableUsers.get(0);
+    }
+
+    public Boolean hasUnusedLogin(User user) {
+        List<User> list = getAllUsers();
+        for (User el : list) {
+            if (user.getLogin().equals(el.getLogin())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

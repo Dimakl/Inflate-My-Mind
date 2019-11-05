@@ -35,7 +35,6 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
-        MailgunVerification.verifyEmail(this);
     }
 
     public void setPassword(String password) {
@@ -44,6 +43,5 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-        MailgunVerification.verifyEmail(this);
     }
 }

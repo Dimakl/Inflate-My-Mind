@@ -1,8 +1,10 @@
 package com.inflatemymind.controllers;
 
 import com.inflatemymind.exceptions.ResourceNotFoundException;
+import com.inflatemymind.models.Email;
 import com.inflatemymind.models.User;
 import com.inflatemymind.repositories.UserRepository;
+import com.inflatemymind.services.EmailService;
 import com.inflatemymind.services.UserService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +26,26 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+    @Autowired
+    EmailService emailService;
 
     @GetMapping(params={"login","password"})
     public ResponseEntity getUserByLoginAndPassword(String login, String password) {
         // TODO: fix when user is not found
+        User user = userService.getUserByLoginAndPassword(login, password);
+        if (user == null) {
+             return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("No such user");
+        }
+        if (!emailService.isEmailVerified(user)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Email not verified");
+        }
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userService.getUserByLoginAndPassword(login, password));
+                .body(user);
     }
 
     @GetMapping(params = {"userId"})
@@ -53,7 +64,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "http://127.0.0.1:8000")
     @PostMapping
     public ResponseEntity createUser( User user) throws IllegalAccessException {
         if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null
@@ -61,6 +71,15 @@ public class UserController {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Request contains null values");
+        }
+        if (!emailService.registerOrDeclineUserEmail(user, user.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Email is used");
+        } if (!userService.hasUnusedLogin(user)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Username is used");
         }
         return ResponseEntity
                 .status(HttpStatus.OK)

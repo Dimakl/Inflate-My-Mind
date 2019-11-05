@@ -1,5 +1,6 @@
 package com.inflatemymind.utility;
 
+import com.inflatemymind.models.Email;
 import com.inflatemymind.models.User;
 import kong.unirest.HttpRequestWithBody;
 import kong.unirest.JsonNode;
@@ -31,18 +32,14 @@ public class MailgunVerification {
         privateApiKey = scanner.nextLine();
     }
 
-    public static void main(String[] args) {
-        User u = new User();
-        u.setEmail("dimakid123@gmail.com");
-        verifyEmail(u);
-    }
-
-    public static void verifyEmail(User user) {
+    public static void verifyEmail(User user, Email email) {
+        String code = email.getId()*587 + 2953 + "";
         JsonNode j = Unirest.post("https://api.mailgun.net/v3/" + DOMAIN + "/messages").basicAuth("api", privateApiKey)
                 .queryString("from", "InflateMyMind <hivemind@inflate-my-mind.com>")
                 .queryString("to", user.getEmail())
                 .queryString("subject", "Verify your account, please")
-                .queryString("text", user.getFirstName() + " " + user.getSecondName() + ", your verification link is: http://127.0.0.1:8000/verify.html?" + user.getEmail())
+                .queryString("text", user.getFirstName() + " " + user.getSecondName() + ", your verification link is: " +
+                        "http://127.0.0.1:8080/verification?email=" + user.getEmail() + "&code="+ code)
                 .asJson().getBody();
     }
 

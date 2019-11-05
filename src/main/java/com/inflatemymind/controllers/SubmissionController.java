@@ -29,11 +29,6 @@ public class SubmissionController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public List<Submission> getAllSubmissions() {
-        return submissionService.getSubmissions();
-    }
-
     @GetMapping(params = {"submissionId"})
     public ResponseEntity getSubmissionById(Long submissionId) {
         Optional<Submission> submission = submissionService.getSubmissionById(submissionId);
