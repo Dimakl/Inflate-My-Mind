@@ -36,3 +36,6 @@ src/main/resources/salt
 
 ### NOT INCLUDING API KEY ###
 src/main/resources/mailgun_private_api_key
+
+### NOT INCLUDING generated schemes ###
+src/main/resources/schemes/*
