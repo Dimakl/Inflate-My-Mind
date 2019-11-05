@@ -4,10 +4,10 @@ eval
     : expression EOF;
 
 expression
-    : expression AND expression
-    | expression OR expression
-    | (NOT)* LPAREN expression RPAREN
-    | (NOT)* VARIABLE
+    : expression AND expression       #AND
+    | expression OR expression        #OR
+    | (NOT)* LPAREN expression RPAREN #PARENS
+    | (NOT)* VARIABLE                 #VARIABLE
     ;
 
 LPAREN
