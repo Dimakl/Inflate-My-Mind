@@ -37,7 +37,7 @@ public class SubmissionService {
     public List<Submission> getSubmissionsByUserId(Long userId) {
         List<Submission> submissions = this.getSubmissions();
         return submissions.stream()
-                .filter(submission -> submission.getUserId() == userId) //TODO: check if == works
+                .filter(submission -> submission.getUserId() == userId)
                 .collect(Collectors.toList());
     }
 }

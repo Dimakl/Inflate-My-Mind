@@ -31,7 +31,6 @@ public class UserController {
 
     @GetMapping(params={"login","password"})
     public ResponseEntity getUserByLoginAndPassword(String login, String password) {
-        // TODO: fix when user is not found
         User user = userService.getUserByLoginAndPassword(login, password);
         if (user == null) {
              return ResponseEntity

@@ -28,7 +28,7 @@ public class LogicalExpression {
     }
 
     private static boolean checkInvalidTokens(String expression) {
-        // TODO: on change of grammar should change it too
+        // on change of grammar should change it too
         String allowedTokens = "()!&|ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Set<Character> tokenSet = new HashSet<>();
         for (Character c : allowedTokens.toCharArray()) {

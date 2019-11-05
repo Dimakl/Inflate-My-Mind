@@ -44,6 +44,8 @@ public class EmailService {
                 boolean v =  code == listEmail.getId()*587 + 2953;
                 if (v) {
                     listEmail.setIsValidated(true);
+                    emailRepository.deleteById(listEmail.getId());
+                    emailRepository.save(listEmail);
                 }
                 return v;
             }

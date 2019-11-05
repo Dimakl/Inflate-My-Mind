@@ -58,7 +58,7 @@ public class ExpressionController {
         if (expression.isPresent()) {
             String encodedString = null;
             try {
-                BufferedImage image = ImageIO.read(getClass().getResource("/schemes/" + expressionId + ".png"));
+                BufferedImage image = ImageIO.read(new File("src/main/resources/schemes/" + expressionId + ".png"));
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write( image, "png", baos );
                 baos.flush();
