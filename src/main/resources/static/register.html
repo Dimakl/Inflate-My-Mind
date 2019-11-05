@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(&quot;assets/img/brain.jpg&quot;);"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">Создание аккаунта для InflateMyMind</h4>
+                            </div>
+                            <form class="user">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="firstName" placeholder="Имя" name="last_name"></div>
+                                    <div class="col-sm-6"><input type="text" class="form-control form-control-user" id="secondName" placeholder="Фамилия" name="second_name" /></div>
+                                </div>
+                                <div class="form-group"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="e-mail" name="email"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input type="text" class="form-control form-control-user" id="login" placeholder="Логин" name="login" /></div>
+                                    <div class="col-sm-6"><input type="password" class="form-control form-control-user" id="password" placeholder="Пароль" name="password" /></div>
+                                </div>
+                                <!-- Start: Toggle Switches -->
+                                <fieldset>
+                                    <legend></legend>
+                                    <div class="toggle"><input type="radio" id="isTeacher" name="bike_cond" checked="checked"><label for="cond_new">Учитель</label><input type="radio" id="cond_used" name="bike_cond"><label for="cond_used">Ученик</label></div>
+                                </fieldset>
+                                <!-- End: Toggle Switches --><button onclick="return register()" class="btn btn-primary btn-block text-white btn-user" type="submit">Регистрация аккаунта</button>
+                                <hr>
+                            </form>
+                            <div class="text-center"></div>
+                            <div class="text-center"><a class="small" href="login.html">Уже есть аккаунт?</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/script.min.js"></script>
+</body>
+
+</html>
