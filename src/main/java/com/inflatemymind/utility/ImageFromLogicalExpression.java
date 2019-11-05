@@ -30,7 +30,8 @@ public class ImageFromLogicalExpression {
     private Image and, or, not;
 
     public static void main(String[] args) {
-        ImageFromLogicalExpression imageFromLogicalExpression = new ImageFromLogicalExpression("A&B|C", 1);
+        ImageFromLogicalExpression imageFromLogicalExpression = new ImageFromLogicalExpression("!A&((L&B)|(K&Q)|!(C|(A&B&E))&D)|D", 1);
+        System.out.println();
     }
 
     public ImageFromLogicalExpression(String expression, Integer answer) {
@@ -84,9 +85,11 @@ public class ImageFromLogicalExpression {
                 case 2: // ! VAR
                     appendNode = new TreeNode(node, true, NodeType.VARIABLE, fromNode);
                     treeNodes.get(currentLevel).add(appendNode);
+                    break;
                 case 1: // VAR
                     appendNode = new TreeNode(node, false, NodeType.VARIABLE, fromNode);
                     treeNodes.get(currentLevel).add(appendNode);
+                    break;
             }
             if (queue.isEmpty() && !nextQueue.isEmpty()) {
                 queue = nextQueue;
@@ -105,12 +108,15 @@ public class ImageFromLogicalExpression {
         g.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(3f);
         g.setStroke(stroke);
-        Font font = new Font("TimesRoman", Font.BOLD, 20);
+        Font font = new Font("TimesRoman", Font.BOLD, 30);
         g.setFont(font);
         drawBasicElements(g);
         drawConnections(g);
+        drawAnswer(g);
         ImageIO.write(bufferedImage, "png", new File("coolfile.png"));
     }
+
+
 
     private void drawBasicElements(Graphics2D g) {
         Integer currentX = 0;
@@ -122,17 +128,13 @@ public class ImageFromLogicalExpression {
                 node.boxStartY = currentY;
                 switch (node.type) {
                     case VARIABLE:
-                        String var = node.nodeText;
-                        if (node.isNegated) {
-                            var = "!" + var;
-                        }
-                        g.drawString(var, currentX + 25, currentY + 35);
+                        g.drawString(node.nodeText, currentX + 40, currentY + 35);
                         break;
                     case PARENS:
                         if (node.isNegated) {
                             g.drawImage(not, currentX, currentY, null);
                         } else {
-                            g.drawLine(currentX, currentY + 25, currentX + 50, currentY + 25);
+                            g.drawLine(currentX, currentY + 25, currentX + 75, currentY + 25);
                         }
                         break;
                     case AND:
@@ -151,7 +153,31 @@ public class ImageFromLogicalExpression {
     }
 
     private void drawConnections(Graphics2D g) {
+        for (int i = treeNodes.size() - 1; i > 0; i--) {
+            for (int j = 0; j < treeNodes.get(i).size(); j++) {
+                TreeNode node = treeNodes.get(i).get(j);
+                TreeNode nextNode = node.next;
+                if (nextNode.type == NodeType.PARENS) {
+                    g.drawLine(node.boxStartX + 100, node.boxStartY + 25,
+                            node.boxStartX + 100, nextNode.boxStartY + 25); // vertical
+                    g.drawLine(node.boxStartX + 100, nextNode.boxStartY + 25,
+                            nextNode.boxStartX, nextNode.boxStartY + 25); // horizontal
+                } else {
+                    int inputY = nextNode.occupied ? nextNode.boxStartY + 35 : nextNode.boxStartY + 15;
+                    nextNode.occupied = true;
+                    g.drawLine(node.boxStartX + 100, node.boxStartY + 25,
+                            node.boxStartX + 100, inputY); // vertical
+                    g.drawLine(node.boxStartX + 100, inputY, nextNode.boxStartX, inputY); // horisontal
+                }
+            }
+        }
+    }
 
+    private void drawAnswer(Graphics2D g) {
+        Font font = new Font("TimesRoman", Font.BOLD, 40);
+        g.setFont(font);
+        TreeNode node = treeNodes.get(0).get(0);
+        g.drawString(answer.toString(), node.boxStartX + 100, node.boxStartY + 35);
     }
 
     private BufferedImage createBufferedImage() {
@@ -187,6 +213,7 @@ public class ImageFromLogicalExpression {
         TreeNode next;
         Integer boxStartX;
         Integer boxStartY;
+        Boolean occupied = false;
 
         // конструктор поменять
         public TreeNode(ParseTree node, Boolean isNegated, NodeType nodeType, TreeNode next) {
