@@ -55,14 +55,15 @@ public class ExpressionController {
 
     @CrossOrigin
     @GetMapping(value = "/image")
-    public @ResponseBody ResponseEntity getFullExpressionInfoById(Long expressionId) {
+    public @ResponseBody
+    ResponseEntity getFullExpressionInfoById(Long expressionId) {
         Optional<Expression> expression = expressionService.getExpressionById(expressionId);
         if (expression.isPresent()) {
             String encodedString = null;
             try {
                 BufferedImage image = ImageIO.read(new File("src/main/resources/schemes/" + expressionId + ".png"));
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write( image, "png", baos );
+                ImageIO.write(image, "png", baos);
                 baos.flush();
                 byte[] imageInByte = baos.toByteArray();
                 baos.close();

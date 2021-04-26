@@ -30,11 +30,11 @@ public class UserController {
     EmailService emailService;
 
     @CrossOrigin
-    @GetMapping(params={"login","password"})
+    @GetMapping(params = {"login", "password"})
     public ResponseEntity getUserByLoginAndPassword(String login, String password) {
         User user = userService.getUserByLoginAndPassword(login, password);
         if (user == null) {
-             return ResponseEntity
+            return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("No such user");
         }
@@ -67,7 +67,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity createUser( User user) throws IllegalAccessException {
+    public ResponseEntity createUser(User user) throws IllegalAccessException {
         if (user.getLogin() == null || user.getPassword() == null || user.getIsTeacher() == null
                 || user.getFirstName() == null || user.getSecondName() == null) {
             return ResponseEntity
@@ -78,7 +78,8 @@ public class UserController {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Email is used");
-        } if (!userService.hasUnusedLogin(user)) {
+        }
+        if (!userService.hasUnusedLogin(user)) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Username is used");

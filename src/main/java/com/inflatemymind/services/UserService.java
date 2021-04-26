@@ -34,8 +34,8 @@ public class UserService {
         List<User> suitableUsers = getAllUsers().stream()
                 .filter(user ->
                         user.getLogin() != null && user.getLogin().equals(login)
-                        &&
-                        user.getPassword() != null && user.getPassword().equals(HashSalt.hashPassword(password)))
+                                &&
+                                user.getPassword() != null && user.getPassword().equals(HashSalt.hashPassword(password)))
                 .collect(Collectors.toList());
         return suitableUsers.isEmpty() ? null : suitableUsers.get(0);
     }

@@ -24,7 +24,7 @@ public class VerificationController {
         if (emailService.verifyEmail(email, code)) {
             return "Email verified";
         } else {
-            return  "Invalid code for email verification";
+            return "Invalid code for email verification";
         }
     }
 

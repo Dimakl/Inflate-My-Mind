@@ -68,7 +68,7 @@ public class ImageFromLogicalExpression {
                     break;
                 case 3:
                     if (node.getChild(1).getText().equals("&") || node.getChild(1).getText().equals("^")
-                            || node.getChild(1).getText().equals("|") ) { // expr [&|] expr
+                            || node.getChild(1).getText().equals("|")) { // expr [&|] expr
                         NodeType nodeType;
                         if (node.getChild(1).getText().equals("&")) {
                             nodeType = NodeType.AND;
@@ -120,7 +120,6 @@ public class ImageFromLogicalExpression {
         drawAnswer(g);
         ImageIO.write(bufferedImage, "png", new File("src/main/resources/schemes/" + filename));
     }
-
 
 
     private void drawBasicElements(Graphics2D g) {
@@ -176,8 +175,8 @@ public class ImageFromLogicalExpression {
                 TreeNode node = treeNodes.get(i).get(j);
                 TreeNode nextNode = node.next;
                 if (nextNode.type == NodeType.PARENS) {
-                    g.drawLine(node.boxStartX + 100+ j * 4, node.boxStartY + 25,
-                            node.boxStartX + 100 + j * 4 , nextNode.boxStartY + 25); // vertical
+                    g.drawLine(node.boxStartX + 100 + j * 4, node.boxStartY + 25,
+                            node.boxStartX + 100 + j * 4, nextNode.boxStartY + 25); // vertical
                     g.drawLine(node.boxStartX + 100 + j * 4, nextNode.boxStartY + 25,
                             nextNode.boxStartX, nextNode.boxStartY + 25); // horizontal
                 } else {

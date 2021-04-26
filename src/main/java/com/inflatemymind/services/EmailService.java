@@ -22,7 +22,7 @@ public class EmailService {
                 return false;
             }
         }
-        //TODO:chnage
+        //TODO: change
         Email newEmail = emailRepository.save(new Email(true, email));
         MailgunVerification.verifyEmail(user, newEmail);
         return true;
@@ -42,7 +42,7 @@ public class EmailService {
         List<Email> list = emailRepository.findAll();
         for (Email listEmail : list) {
             if (listEmail.getEmail().equals(email)) {
-                boolean v =  code == listEmail.getId()*587 + 2953;
+                boolean v = code == listEmail.getId() * 587 + 2953;
                 if (v) {
                     listEmail.setIsValidated(true);
                     emailRepository.deleteById(listEmail.getId());
